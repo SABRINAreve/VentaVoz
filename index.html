@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#6C4AB6">
+<title>VentaVoz</title>
+
+<!-- Estructura preparada para PWA (todavía no se registra el service worker) -->
+<link rel="manifest" href="manifest.json">
+
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ======================= BARRA LATERAL ======================= -->
+<aside class="sidebar">
+
+    <div class="logo">
+        <span id="logoIcon">🥤</span>
+        <img id="logoImage" class="logo-image hidden" alt="Logo del negocio">
+        <div>
+            <h2 id="businessName">VentaVoz</h2>
+            <p id="businessTagline" class="small-text">Ventas por voz</p>
+        </div>
+    </div>
+
+    <nav>
+        <button class="nav-button active" data-section="inicio">🏠 <span>Inicio</span></button>
+        <button class="nav-button" data-section="registrar">🎙️ <span>Registrar venta</span></button>
+        <button class="nav-button" data-section="productos">📦 <span>Productos</span></button>
+        <button class="nav-button" data-section="historial">📋 <span>Historial</span></button>
+        <button class="nav-button" data-section="estadisticas">📊 <span>Estadísticas</span></button>
+        <button class="nav-button" data-section="configuracion">⚙️ <span>Configuración</span></button>
+    </nav>
+
+    <div class="sidebar-footer">
+        <span id="connectionDot" class="dot"></span>
+        <span id="connectionText">En línea</span>
+    </div>
+</aside>
+
+<!-- ======================= CONTENIDO PRINCIPAL ======================= -->
+<main class="main-content">
+
+    <header class="topbar">
+        <div>
+            <p class="small-text">Sistema de ventas</p>
+            <h1 id="pageTitle">Inicio</h1>
+        </div>
+    </header>
+
+    <!-- ================= INICIO ================= -->
+    <section id="inicio" class="section active-section">
+
+        <div class="welcome">
+            <div>
+                <h2>¡Hola! 👋</h2>
+                <p>Registra tus ventas de forma rápida mediante voz o manualmente.</p>
+            </div>
+            <button class="primary-button big-cta" data-goto="registrar">🎙️ Registrar venta</button>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <span>💰</span>
+                <div>
+                    <p>Ventas de hoy</p>
+                    <strong id="todaySales">$0,00</strong>
+                </div>
+            </div>
+            <div class="stat-card">
+                <span>🧾</span>
+                <div>
+                    <p>Ventas realizadas</p>
+                    <strong id="todayTransactions">0</strong>
+                </div>
+            </div>
+            <div class="stat-card">
+                <span>📦</span>
+                <div>
+                    <p>Productos vendidos</p>
+                    <strong id="todayProducts">0</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3>Ventas recientes</h3>
+                <button class="secondary-button" data-goto="historial">Ver historial completo</button>
+            </div>
+            <div id="recentHistory">
+                <p class="empty-message">Todavía no existen ventas.</p>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- ================= REGISTRAR VENTA ================= -->
+    <section id="registrar" class="section">
+
+        <div class="register-grid">
+
+            <!-- Columna de voz -->
+            <div class="card voice-card">
+                <h2>🎙️ Registrar por voz</h2>
+                <p>Presiona el botón y di los productos. Ejemplo: "Dos batidos de fresa y un hot dog".</p>
+
+                <button id="voiceButton" class="voice-button">
+                    🎙️
+                    <span>Presionar para hablar</span>
+                </button>
+
+                <p id="voiceStatus" class="voice-status">Ejemplo: "Dos batidos de fresa y un hot dog"</p>
+                <p id="recognizedText" class="recognized-text"></p>
+            </div>
+
+            <!-- Columna manual -->
+            <div class="card manual-card">
+                <h2>⌨️ Registro manual</h2>
+                <p>Busca un producto y agrégalo al carrito.</p>
+
+                <input type="text" id="manualSearchInput" placeholder="Buscar producto...">
+
+                <div id="manualProductsList" class="manual-products-list"></div>
+            </div>
+
+        </div>
+
+        <!-- Venta detectada / carrito actual -->
+        <div class="card">
+            <div class="card-header">
+                <h3>🧾 Venta actual</h3>
+                <button id="clearSaleButton" class="secondary-button">Limpiar</button>
+            </div>
+
+            <div id="currentSale">
+                <p class="empty-message">No hay productos agregados.</p>
+            </div>
+
+            <div class="sale-total">
+                <span>Total</span>
+                <strong id="saleTotal">$0,00</strong>
+            </div>
+
+            <div class="sale-actions">
+                <button id="cancelSaleButton" class="danger-button">❌ Cancelar</button>
+                <button id="confirmSaleButton" class="primary-button">✓ Confirmar venta</button>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- ================= PRODUCTOS ================= -->
+    <section id="productos" class="section">
+
+        <div class="section-header">
+            <div>
+                <h2>Productos</h2>
+                <p>Administra los productos de tu negocio.</p>
+            </div>
+            <button id="addProductButton" class="primary-button">+ Nuevo producto</button>
+        </div>
+
+        <input type="text" id="productSearchInput" placeholder="Buscar producto o categoría...">
+
+        <div id="productsContainer" class="products-grid"></div>
+
+    </section>
+
+    <!-- ================= HISTORIAL ================= -->
+    <section id="historial" class="section">
+
+        <div class="section-header">
+            <div>
+                <h2>Historial de ventas</h2>
+                <p>Consulta las ventas registradas (más recientes primero).</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div id="historyContainer">
+                <p class="empty-message">Todavía no existen ventas.</p>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- ================= ESTADÍSTICAS ================= -->
+    <section id="estadisticas" class="section">
+
+        <div class="section-header">
+            <div>
+                <h2>Estadísticas</h2>
+                <p>Consulta el rendimiento de tu negocio.</p>
+            </div>
+
+            <div class="period-tabs">
+                <button class="period-button active" data-period="hoy">Hoy</button>
+                <button class="period-button" data-period="semana">Esta semana</button>
+                <button class="period-button" data-period="mes">Este mes</button>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <span>💰</span>
+                <div>
+                    <p>Ingresos</p>
+                    <strong id="totalIncome">$0,00</strong>
+                </div>
+            </div>
+            <div class="stat-card">
+                <span>🧾</span>
+                <div>
+                    <p>Ventas</p>
+                    <strong id="totalTransactions">0</strong>
+                </div>
+            </div>
+            <div class="stat-card">
+                <span>📦</span>
+                <div>
+                    <p>Productos vendidos</p>
+                    <strong id="totalProducts">0</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>📈 Ventas por día</h3>
+            <canvas id="salesChart" height="160"></canvas>
+        </div>
+
+        <div class="stats-columns">
+            <div class="card">
+                <h3>🏆 Más vendidos</h3>
+                <div id="topProducts"><p class="empty-message">Todavía no existen datos.</p></div>
+            </div>
+            <div class="card">
+                <h3>📉 Menos vendidos</h3>
+                <div id="bottomProducts"><p class="empty-message">Todavía no existen datos.</p></div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- ================= CONFIGURACIÓN ================= -->
+    <section id="configuracion" class="section">
+
+        <div class="section-header">
+            <div>
+                <h2>Configuración</h2>
+                <p>Personaliza VentaVoz para tu negocio. Los cambios se reflejan en toda la app.</p>
+            </div>
+        </div>
+
+        <div class="card settings-card">
+
+            <h3>🏪 Información del negocio</h3>
+
+            <label for="businessNameInput">Nombre del negocio</label>
+            <input type="text" id="businessNameInput" placeholder="Ejemplo: Batidoos">
+
+            <label for="businessIconInput">Emoji o icono (se usa si no subes un logo)</label>
+            <input type="text" id="businessIconInput" placeholder="🥤" maxlength="2">
+
+            <label for="businessDescriptionInput">Descripción corta</label>
+            <input type="text" id="businessDescriptionInput" placeholder="Ejemplo: Batidos y comida rápida">
+
+            <label for="logoInput">Logo (imagen)</label>
+            <input type="file" id="logoInput" accept="image/*">
+            <button id="removeLogoButton" class="secondary-button small">Quitar logo</button>
+
+            <h3>🎨 Apariencia</h3>
+
+            <div class="color-row">
+                <div>
+                    <label for="primaryColorInput">Color principal</label>
+                    <input type="color" id="primaryColorInput" value="#6C4AB6">
+                </div>
+                <div>
+                    <label for="secondaryColorInput">Color secundario</label>
+                    <input type="color" id="secondaryColorInput" value="#563795">
+                </div>
+            </div>
+
+            <label>Tema</label>
+            <div class="theme-options">
+                <label class="radio-option">
+                    <input type="radio" name="theme" value="claro" checked> Claro
+                </label>
+                <label class="radio-option">
+                    <input type="radio" name="theme" value="oscuro"> Oscuro
+                </label>
+            </div>
+
+            <button id="saveSettingsButton" class="primary-button">✓ Guardar configuración</button>
+            <button id="resetDataButton" class="danger-button">🗑️ Borrar todos los datos</button>
+
+        </div>
+
+    </section>
+
+</main>
+
+<!-- ======================= MODAL DE PRODUCTO ======================= -->
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="productModalTitle">Nuevo producto</h2>
+            <button id="closeModalButton" class="close-button">×</button>
+        </div>
+
+        <input type="hidden" id="productIdInput">
+
+        <label for="productNameInput">Nombre del producto</label>
+        <input type="text" id="productNameInput" placeholder="Ejemplo: Batido de fresa">
+
+        <label for="productPriceInput">Precio</label>
+        <input type="number" id="productPriceInput" placeholder="1.50" min="0" step="0.01">
+
+        <label for="productCategoryInput">Categoría</label>
+        <input type="text" id="productCategoryInput" placeholder="Ejemplo: Batidos">
+
+        <label class="checkbox-option">
+            <input type="checkbox" id="productActiveInput" checked> Producto activo
+        </label>
+
+        <button id="saveProductButton" class="primary-button">Guardar producto</button>
+    </div>
+</div>
+
+<!-- ======================= TOAST DE NOTIFICACIONES ======================= -->
+<div id="toast" class="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
