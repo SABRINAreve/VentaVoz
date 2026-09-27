@@ -1,9 +1,3 @@
-// ==========================================================
-// VENTAVOZ - app.js
-// Prototipo funcional: registro de ventas por voz o manual.
-// Todo el código está comentado para que puedas modificarlo
-// fácilmente (pensado para un proyecto universitario).
-
 // 1. CLAVES DE ALMACENAMIENTO (localStorage)
 
 const STORAGE_KEYS = {
@@ -13,7 +7,6 @@ const STORAGE_KEYS = {
 };
 
 // 2. DATOS INICIALES DE DEMOSTRACIÓN
-// (el usuario puede editarlos o eliminarlos desde "Productos")
 
 const defaultProducts = [
     { id: 1, name: "Colibrí Morado",      price: 2.25, category: "Batidos", active: true },
@@ -68,14 +61,12 @@ function saveSettings() {
 }
 
 // 4. UTILIDADES
-
 // Formatea números como moneda: 3.5 -> "$3,50"
 function formatMoney(amount) {
     return "$" + amount.toFixed(2).replace(".", ",");
 }
 
-// Quita acentos y pasa a minúsculas, para comparar texto sin
-// preocuparnos por mayúsculas o tildes.
+// Quita acentos y pasa a minúsculas, para comparar texto sin preocuparnos por mayúsculas o tildes.
 function normalizeText(text) {
     return text
         .toLowerCase()
@@ -149,7 +140,6 @@ const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechReco
 let recognition = null;
 
 if (SpeechRecognitionAPI) {
-
     recognition = new SpeechRecognitionAPI();
     recognition.lang = "es-EC";
     recognition.continuous = false;
@@ -203,7 +193,6 @@ voiceButton.addEventListener("click", () => {
 });
 
 // 6.1 Interpretar el texto reconocido y armar la venta
-
 const NUMBER_WORDS = {
     "un": 1, "uno": 1, "una": 1,
     "dos": 2, "tres": 3, "cuatro": 4, "cinco": 5,
@@ -217,7 +206,6 @@ function singularize(word) {
 }
 
 function processVoiceSale(text) {
-
     const normalized = normalizeText(text);
 
     // Separamos la frase en "trozos" usando la palabra "y" o comas,
@@ -291,10 +279,7 @@ function detectQuantity(chunk) {
     return 1; // si no se menciona cantidad, se asume 1
 }
 
-
-// ==========================================================
 // 7. REGISTRO MANUAL
-// ==========================================================
 
 const manualSearchInput = document.getElementById("manualSearchInput");
 const manualProductsList = document.getElementById("manualProductsList");
@@ -899,18 +884,6 @@ function updateConnectionStatus() {
 
 window.addEventListener("online", updateConnectionStatus);
 window.addEventListener("offline", updateConnectionStatus);
-
-// 15. (OPCIONAL) REGISTRO DEL SERVICE WORKER PARA PWA
-// Descomenta estas líneas cuando quieras convertir VentaVoz
-// en una PWA instalable con soporte offline real.
-
-// if ("serviceWorker" in navigator) {
-//     window.addEventListener("load", () => {
-//         navigator.serviceWorker.register("sw.js")
-//             .then(() => console.log("Service worker registrado"))
-//             .catch(err => console.warn("Error al registrar el service worker", err));
-//     });
-// }
 
 // 16. INICIO DE LA APLICACIÓN
 function initApp() {

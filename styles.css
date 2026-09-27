@@ -1,12 +1,9 @@
-/* ==========================================
-   VARIABLES DE TEMA
-   Se modifican en JS desde Configuración
-   ========================================== */
+/* 
+VARIABLES DE TEMA
+   Se modifican en JS desde Configuración*/
 
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+    box-sizing: border-box; margin: 0; padding: 0;
 }
 
 :root {
@@ -43,10 +40,7 @@ body {
 
 .hidden { display: none !important; }
 
-/* ==========================================
-   SIDEBAR
-   ========================================== */
-
+/* SIDEBAR */
 .sidebar {
     width: 250px;
     background: var(--card);
@@ -70,21 +64,11 @@ body {
 
 .logo span { font-size: 30px; }
 
-.logo-image {
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    object-fit: cover;
-}
+.logo-image { width: 36px; height: 36px; border-radius: 8px; object-fit: cover;}
 
 .logo h2 { font-size: 18px; line-height: 1.2; }
 
-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    flex: 1;
-}
+nav { display: flex; flex-direction: column; gap: 6px; flex: 1;}
 
 .nav-button {
     display: flex;
@@ -101,7 +85,6 @@ nav {
 }
 
 .nav-button:hover { background: rgba(108, 74, 182, 0.1); color: var(--primary); }
-
 .nav-button.active { background: var(--primary); color: white; }
 
 .sidebar-footer {
@@ -122,9 +105,7 @@ nav {
     flex-shrink: 0;
 }
 
-/* ==========================================
-   CONTENIDO PRINCIPAL
-   ========================================== */
+/*   CONTENIDO PRINCIPAL */
 
 .main-content {
     margin-left: 250px;
@@ -446,12 +427,7 @@ input[type="color"] { width: 100%; height: 44px; padding: 3px; cursor: pointer; 
     overflow-y: auto;
 }
 
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 
 .close-button { border: none; background: none; font-size: 28px; cursor: pointer; color: var(--text); }
 
@@ -480,9 +456,7 @@ input[type="color"] { width: 100%; height: 44px; padding: 3px; cursor: pointer; 
 .toast.error { background: var(--danger); color: white; }
 .toast.success { background: var(--success); color: white; }
 
-/* ==========================================
-   RESPONSIVE
-   ========================================== */
+/* RESPONSIVE*/
 
 @media (max-width: 900px) {
     .register-grid, .stats-columns { grid-template-columns: 1fr; }
@@ -499,7 +473,6 @@ input[type="color"] { width: 100%; height: 44px; padding: 3px; cursor: pointer; 
     }
 
     body { display: block; }
-
     .main-content { margin-left: 0; width: 100%; padding: 18px; }
     nav { flex-direction: row; overflow-x: auto; }
     .nav-button span { display: none; }
