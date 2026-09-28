@@ -399,6 +399,7 @@ function renderCurrentSale() {
     });
 
     saleTotalEl.textContent = formatMoney(total);
+    document.getElementById("currentSale").scrollIntoView({ behavior: "smooth" });
 }
 
 // Confirmar venta: aquí es donde realmente se guarda en el historial.
