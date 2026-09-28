@@ -101,7 +101,8 @@
 
             <!-- Columna de voz -->
             <div class="card voice-card">
-                <h2>🎙️ Registrar por voz</h2>
+                <h2>🗣️ Comando de voz</h2>
+                <p></p>
                 <p>Presiona el botón y di los productos. Ejemplo: "Dos batidos de fresa y un hot dog".</p>
 
                 <button id="voiceButton" class="voice-button">
@@ -109,15 +110,14 @@
                     <span>Presionar para hablar</span>
                 </button>
 
-                <p id="voiceStatus" class="voice-status">Ejemplo: "Dos batidos de fresa y un hot dog"</p>
+                <p id="voiceStatus" class="voice-status"> </p>
                 <p id="recognizedText" class="recognized-text"></p>
             </div>
 
             <!-- Columna manual -->
             <div class="card manual-card">
-                <h2>⌨️ Registro manual</h2>
+                <h2>⌨️ Manual</h2>
                 <p>Busca un producto y agrégalo al carrito.</p>
-
                 <input type="text" id="manualSearchInput" placeholder="Buscar producto...">
 
                 <div id="manualProductsList" class="manual-products-list"></div>
@@ -172,6 +172,7 @@
             <div>
                 <p>Consulta las ventas registradas (más recientes primero).</p>
             </div>
+            
         </div>
 
         <div class="card">

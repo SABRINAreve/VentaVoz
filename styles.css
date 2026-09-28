@@ -148,6 +148,14 @@ nav { display: flex; flex-direction: column; gap: 6px; flex: 1;}
     padding: 24px;
     margin-bottom: 20px;
 }
+.manual-card h2, 
+.voice-card h2 {
+    margin-bottom: 8px; 
+}
+.manual-card p, 
+.voice-card p {
+    margin-bottom: 14px; 
+}
 
 .card-header {
     display: flex;
@@ -194,10 +202,10 @@ nav { display: flex; flex-direction: column; gap: 6px; flex: 1;}
     0% { transform: scale(1); }
     50% { transform: scale(1.08); }
     100% { transform: scale(1); }
-}
+} 
 
-.voice-status { margin-top: 18px; color: var(--muted); min-height: 18px; }
-.recognized-text { color: var(--primary); font-weight: bold; margin-top: 8px; min-height: 18px; }
+.voice-status { margin-top: 8px; color: var(--muted); min-height: 18px; }
+.recognized-text { color: var(--primary); font-weight: bold; margin-top: 4px; min-height: 18px; }
 
 .manual-card input[type="text"] { margin-bottom: 15px; }
 
@@ -481,4 +489,24 @@ input[type="color"] { width: 100%; height: 44px; padding: 3px; cursor: pointer; 
     .dashboard-grid { grid-template-columns: 1fr; }
     .welcome { flex-direction: column; align-items: flex-start; }
     .color-row { grid-template-columns: 1fr; }
+}
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    #area-impresion, #area-impresion * {
+        visibility: visible;
+    }
+    #area-impresion {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        border: none !important;
+        box-shadow: none !important;
+    }
+    .report-controls {
+        display: none;
+    }
 }

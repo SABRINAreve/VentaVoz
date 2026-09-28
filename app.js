@@ -399,6 +399,7 @@ function renderCurrentSale() {
     });
 
     saleTotalEl.textContent = formatMoney(total);
+    document.getElementById("currentSale").scrollIntoView({ behavior: "smooth" });
 }
 
 // Confirmar venta: aquí es donde realmente se guarda en el historial.
@@ -440,7 +441,7 @@ document.getElementById("confirmSaleButton").addEventListener("click", () => {
 
     currentSale = [];
     recognizedText.textContent = "";
-    voiceStatus.textContent = 'Ejemplo: "Dos batidos de fresa y un hot dog"';
+    voiceStatus.textContent = ' ';
     renderCurrentSale();
 });
 
@@ -448,7 +449,7 @@ document.getElementById("confirmSaleButton").addEventListener("click", () => {
 document.getElementById("cancelSaleButton").addEventListener("click", () => {
     currentSale = [];
     recognizedText.textContent = "";
-    voiceStatus.textContent = 'Ejemplo: "Dos batidos de fresa y un hot dog"';
+    voiceStatus.textContent = ' ';
     renderCurrentSale();
 });
 
@@ -773,7 +774,6 @@ function updateTodayStatistics() {
 }
 
 // 13. CONFIGURACIÓN / PERSONALIZACIÓN
-
 const businessNameEl = document.getElementById("businessName");
 const businessTaglineEl = document.getElementById("businessTagline");
 const logoIconEl = document.getElementById("logoIcon");
