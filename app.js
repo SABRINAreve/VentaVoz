@@ -399,7 +399,6 @@ function renderCurrentSale() {
     });
 
     saleTotalEl.textContent = formatMoney(total);
-    document.getElementById("currentSale").scrollIntoView({ behavior: "smooth" });
 }
 
 // Confirmar venta: aquí es donde realmente se guarda en el historial.
@@ -718,7 +717,9 @@ function renderSalesChart(periodSales) {
     // Agrupamos el total vendido por día (clave: "AAAA-MM-DD")
     const totalsByDay = {};
     periodSales.forEach(sale => {
-        const day = sale.date.split("T")[0];
+        const d = new Date(sale.date);
+        const day = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' +
+         String(d.getDate()).padStart(2, '0');
         totalsByDay[day] = (totalsByDay[day] || 0) + sale.total;
     });
 
